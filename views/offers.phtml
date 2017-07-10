@@ -1,0 +1,24 @@
+<html>
+<body>
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+?>
+    <h1>
+        Home page
+    </h1>
+    <h4>Enter information</h4>
+
+    <form action="/offer/index.php/offers/post_offer" method="post">
+        <div><input type="text" name="name" placeholder="name" /></div>
+        <div><input type="text" name="cost" placeholder="cost" /></div>
+        <div> <input type="text" name="country" placeholder="country" /> </div>
+        <div> <input type="text" name="state" placeholder="state" /> </div>
+        <div> <input type="text" name="max_limit" placeholder="max_limit" /> </div>
+        
+        <input type="submit" name="" id="" value="submit" />
+        
+    </form>
+</body>
+</html>
