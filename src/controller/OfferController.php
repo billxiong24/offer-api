@@ -65,6 +65,9 @@ abstract class OfferController {
             $obj['cost'] = $query_params['cost'];
         }
 
+        if(!$bool) {
+            return "no results";
+        }
         //echo $query;
         $query_res = $this->database->query($query, $obj);
         while($row = $query_res->fetch()) {
