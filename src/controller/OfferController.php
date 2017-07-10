@@ -1,4 +1,5 @@
 <?php 
+namespace Offer\controller;
 abstract class OfferController {
     //data is an array 
     private $offerModel;

@@ -2,8 +2,12 @@
     use \Psr\Http\Message\ServerRequestInterface as Request;
     use \Psr\Http\Message\ResponseInterface as Response;
     use \Slim\Views\PhpRenderer as View;
+
     require 'vendor/autoload.php';
-    //require '../vendor/autoload.php';
+
+    use Offer\controller\OfferControllerJSON as OfferControllerJSON;
+    use Offer\controller\OfferController as OfferController;
+    use Offer\model\OfferModel as OfferModel;
     
     $config = [];
     $config['db']['host'] = 'localhost';
@@ -11,8 +15,8 @@
     $config['db']['pass'] = 'Chem1313#';
     $config['db']['db_name'] = 'offers';
     $config['displayErrorDetails'] = true;
-    
-    
+
+
     $app = new \Slim\App([
         "db_settings" =>$config
     ]);

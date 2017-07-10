@@ -1,4 +1,5 @@
 <?php
+namespace Offer\model;
 
 class OfferModel {
     //data is an array 

@@ -1,4 +1,6 @@
 <?php
+namespace Offer\controller;
+
 class OfferControllerJSON extends OfferController {
     
     public function __construct($database, $offerModel=null) {
