@@ -14,12 +14,11 @@ class OfferControllerJSON extends OfferController {
     }
 
     public function search($query_params) {
-        $query_result = parent::generate_search_query($query_params);
 
         $search_result = [];
-        while($row = $query_result->fetch()) {
+        parent::generate_search_query($query_params, function($row) use (&$search_result) {
             $search_result[] = $row;
-        }
+        });
 
         return json_encode($search_result);
     }

@@ -33,7 +33,7 @@ abstract class OfferController {
     public abstract function read_name($offer_name);
     public abstract function search($query_params);
 
-    protected function generate_search_query($query_params) {
+    protected function generate_search_query($query_params, $callback) {
         $query = "SELECT * FROM offers WHERE ";
         $obj = [];
         $bool = false;
@@ -55,18 +55,19 @@ abstract class OfferController {
         }
 
         //echo $query;
-        return $this->read_query_result($query, $obj);
+        $query_res = $this->read_query_result($query, $obj);
+        while($row = $query_res->fetch()) {
+            $callback($row);
+        }
     }
 
 
     public function delete_offer() {
         //TODO delete 
-
     }
 
     public function update() {
         //TODO update 
-
     }
 
     protected function get_name_result($offer_name) {
