@@ -3,6 +3,18 @@
     <h1>
         Home page
     </h1>
-    <h3><?php echo $welcome ?></h3>
+    <div>
+        <a href="/offer/index.php/offers">see all offers</a>
+    </div>
+    <div>
+        <a href="/offer/index.php/offer_form">Add new offer</a>
+    </div>
+    <p>
+        <?php
+            if($offerModel) {
+                echo $offerModel;
+            }
+        ?>
+    </p>
 </body>
 </html>

@@ -13,8 +13,7 @@ abstract class OfferController {
     public function insert() {
         //TODO insert
         $query = 'INSERT INTO offers (id, name, cost, country, state, max_limit) VALUES (:id, :name, :cost, :country, :state, :max_limit)';
-        $stmt = $this->database->prepare($query);
-        $query_result = $stmt->execute([
+        $query_result = $this->database->query($query, [
             "id"=> $this->offerModel->getID(),
             "name"=> $this->offerModel->getname(),
             "cost"=>$this->offerModel->getCost(),
@@ -29,15 +28,26 @@ abstract class OfferController {
         }
     }
 
+    public abstract function read_all();
     public abstract function read_id($offer_id);
 
     public abstract function read_name($offer_name);
     public abstract function search($query_params);
 
+    protected function get_all_results($callback) {
+        $query = "SELECT * FROM offers WHERE :cond";
+        $result = $this->database->query($query, ["cond"=>1]);
+        while($row = $result->fetch()) {
+            $callback($row);
+        }
+    }
+
     protected function generate_search_query($query_params, $callback) {
         $query = "SELECT * FROM offers WHERE ";
         $obj = [];
         $bool = false;
+
+        //clean this up
         if($query_params["id"] !== null) {
             $query .= "id = :id";
             $obj['id'] = $query_params['id'];
@@ -56,7 +66,7 @@ abstract class OfferController {
         }
 
         //echo $query;
-        $query_res = $this->read_query_result($query, $obj);
+        $query_res = $this->database->query($query, $obj);
         while($row = $query_res->fetch()) {
             $callback($row);
         }
@@ -73,12 +83,22 @@ abstract class OfferController {
 
     protected function get_name_result($offer_name) {
         $query = "SELECT * FROM offers WHERE offers.name=:offer_name";
-        return $this->read_query_result($query, ["offer_name"=>$offer_name])->fetch();
+        $result = $this->database->query($query, ["offer_name"=>$offer_name])->fetch();
+        if(!$result) {
+            //return some error here
+            return "no results";
+        }
+        return $result;
     }
 
     protected function get_id_result($offer_id) {
         $query =  "SELECT * FROM offers WHERE id=:offer_id";
-        return $this->read_query_result($query, ["offer_id"=>$offer_id])->fetch();
+        $result = $this->database->query($query, ["offer_id"=>$offer_id])->fetch();
+        if(!$result) {
+            //return some error message here
+            return "no results";
+        }
+        return $result;
     }
 
     protected function read_query_result($query, $obj) {

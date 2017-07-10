@@ -15,6 +15,15 @@ class OfferControllerJSON extends OfferController {
         return json_encode(parent::get_name_result($offer_name));
     }
 
+    public function read_all() {
+        $json_result = [];
+        parent::get_all_results(function($row) use(&$json_result) {
+            $json_result[] = $row;
+
+        });
+        return json_encode($json_result);
+    }
+
     public function search($query_params) {
 
         $search_result = [];
