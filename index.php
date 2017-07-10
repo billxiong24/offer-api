@@ -57,19 +57,32 @@
         $offerModel->setState($data['state']);
         $offerModel->setLimit($data['max_limit']);
 
-        $offerController = new OfferController($offerModel, $this->db);
+        $offerController = new OfferControllerJSON($this->db, $offerModel);
         $offerController->insert();
         return $res->withRedirect("/offer/index.php/offers");
     });
 
+    $app->get('/offers/offer_search', function(Request $req, Response $res) {
+        $params = $req->getQueryParams();
+        $offerController = new OfferControllerJSON($this->db);
+        $search_results = $offerController->search($params);
+        return $this->view->render($res, "offer_search.phtml", ["offerModel"=>$search_results]);
+    });
+
     //get specific offer id
     $app->get('/offers/id/{offer_id}', function(Request $req, Response $res, $args) {
-        return $this->view->render($res, "offer_id.phtml", []);
+
+        $offerController = new OfferControllerJSON($this->db);
+        $offerModel = $offerController->read_id($args['offer_id']);
+        
+        return $this->view->render($res, "offer_id.phtml", ["offerModel"=>$offerModel]);
     });
 
     //get all offers with specific name, if there are multiple
     $app->get('/offers/name/{offer_name}', function(Request $req, Response $res, $args) {
-        return $this->view->render($res, "offer_name.phtml", []);
+        $offerController = new OfferControllerJSON($this->db);
+        $offerModel = $offerController->read_name($args['offer_name']);
+        return $this->view->render($res, "offer_name.phtml", ["offerModel"=>$offerModel]);
     });
 
 

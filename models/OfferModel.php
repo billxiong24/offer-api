@@ -1,5 +1,5 @@
 <?php
-    
+
 class OfferModel {
     //data is an array 
     private $offer_id;
